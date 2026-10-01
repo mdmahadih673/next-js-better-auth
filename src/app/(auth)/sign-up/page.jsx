@@ -7,13 +7,19 @@ import { Button, Description, FieldError, Form, Input, Label, TextField } from "
 
 const signUpPage = () => {
 
+    const signIn = async () => {
+        const resData = await signIn.social({
+            provider: "github"
+        })
+    }
+
     const hendelGoogleSignIn = async () => {
         const resData = await signIn.social({
             provider: "google",
         });
     };
 
-
+    
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -101,6 +107,7 @@ const signUpPage = () => {
                 <Button onClick={hendelGoogleSignIn}>
                     Sign in with Google
                 </Button>
+                
             </Form>
         </div>
     );

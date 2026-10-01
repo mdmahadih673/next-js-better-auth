@@ -7,6 +7,12 @@ import { useState } from "react";
 
 export default function SignInPage() {
 
+    const hendelGithubSignIn = async () => {
+        const resData = await signIn.social({
+            provider: "github",
+        });
+    };
+
     const [isVisible, setIsVisible] = useState(false);
 
     const onSubmit = async (e) => {
@@ -100,6 +106,10 @@ export default function SignInPage() {
                     Reset
                 </Button>
             </div>
+            <p>or</p>
+            <Button onClick={hendelGithubSignIn}>
+                Sign in with Github
+            </Button>
         </Form>
     );
 }
