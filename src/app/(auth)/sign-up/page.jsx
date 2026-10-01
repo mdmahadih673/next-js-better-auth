@@ -6,6 +6,15 @@ import { Button, Description, FieldError, Form, Input, Label, TextField } from "
 
 
 const signUpPage = () => {
+
+    const hendelGoogleSignIn = async () => {
+        const resData = await signIn.social({
+            provider: "google",
+        });
+    };
+
+
+
     const onSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -88,6 +97,10 @@ const signUpPage = () => {
                         Reset
                     </Button>
                 </div>
+                <p>or</p>
+                <Button onClick={hendelGoogleSignIn}>
+                    Sign in with Google
+                </Button>
             </Form>
         </div>
     );
