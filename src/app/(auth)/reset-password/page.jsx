@@ -3,12 +3,15 @@ import ResetPasswordFrom from './reset-password-from';
 
 const page = () => {
     return (
-        <div>
-            <h1>Reset Password</h1>
-            <Suspense fallback="Loading...">
+        <Suspense
+            fallback={
+                <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-slate-950 px-4 text-slate-300">
+                    Loading password reset form...
+                </main>
+            }
+        >
                 <ResetPasswordFrom />
-            </Suspense>
-        </div>
+        </Suspense>
     );
 };
 
