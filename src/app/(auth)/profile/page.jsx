@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Avatar, Button } from "@heroui/react";
+import Link from "next/link";
 
 const ProfilePage = () => {
     return (
@@ -30,12 +31,14 @@ const ProfilePage = () => {
                             </p>
                         </div>
 
-                        <Button
-                            color="primary"
-                            variant="shadow"
-                        >
-                            Edit Profile
-                        </Button>
+                        <Link href="/profile/edit">
+                            <Button
+                                color="primary"
+                                variant="shadow"
+                            >
+                                Edit Profile
+                            </Button>
+                        </Link>
 
                     </div>
 
