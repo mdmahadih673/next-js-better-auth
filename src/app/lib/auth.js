@@ -11,6 +11,17 @@ export const auth = betterAuth({
         enabled: true,
     },
 
+    user: {
+        additionalFields: {
+            bio: {
+                type: "string",
+                required: false,
+                input: true,
+                returned: true,
+            },
+        },
+    },
+
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID,

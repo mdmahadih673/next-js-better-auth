@@ -1,8 +1,34 @@
+
+"use client";
+
 import React from "react";
-import { Card, Avatar, Button } from "@heroui/react";
+import { Card, Avatar, Button, Spinner } from "@heroui/react";
 import Link from "next/link";
 
+import { useSession } from "@/app/lib/auth-client";
+
 const ProfilePage = () => {
+    const { data: session, isPending } = useSession();
+
+
+    if (isPending) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-gray-950">
+                <Spinner color="primary" />
+            </div>
+        );
+    }
+
+    const user = session?.user;
+
+    if (!user) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-gray-950 text-white">
+                <p>You are not logged in.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen bg-gray-950 px-4 py-10 text-white">
             <div className="mx-auto max-w-4xl">
@@ -13,13 +39,15 @@ const ProfilePage = () => {
                     <div className="flex flex-col items-center gap-5 sm:flex-row">
 
                         <Avatar
-                            src="https://i.pravatar.cc/150?img=12"
+                            src={user.image || undefined}
+                            name={user.name}
                             className="h-24 w-24"
                         />
 
                         <div className="flex-1 text-center sm:text-left">
+
                             <h1 className="text-2xl font-bold">
-                                Md. Mahadi Hasan
+                                {user.name}
                             </h1>
 
                             <p className="mt-1 text-gray-400">
@@ -27,8 +55,9 @@ const ProfilePage = () => {
                             </p>
 
                             <p className="mt-1 text-sm text-gray-500">
-                                mahadi@example.com
+                                {user.email}
                             </p>
+
                         </div>
 
                         <Link href="/profile/edit">
@@ -52,9 +81,8 @@ const ProfilePage = () => {
                         </h2>
 
                         <p className="leading-7 text-gray-400">
-                            I am a passionate web developer who loves building
-                            modern, responsive and user-friendly web applications
-                            using React, Next.js and TypeScript.
+                            {user.bio ||
+                                "No bio added yet. Edit your profile to add a bio."}
                         </p>
                     </div>
 
@@ -73,8 +101,9 @@ const ProfilePage = () => {
                                 <p className="text-sm text-gray-500">
                                     Full Name
                                 </p>
+
                                 <p className="mt-1 font-medium">
-                                    Md. Mahadi Hasan
+                                    {user.name}
                                 </p>
                             </div>
 
@@ -82,8 +111,9 @@ const ProfilePage = () => {
                                 <p className="text-sm text-gray-500">
                                     Email
                                 </p>
+
                                 <p className="mt-1 font-medium">
-                                    mahadi@example.com
+                                    {user.email}
                                 </p>
                             </div>
 
@@ -91,6 +121,7 @@ const ProfilePage = () => {
                                 <p className="text-sm text-gray-500">
                                     Role
                                 </p>
+
                                 <p className="mt-1 font-medium">
                                     Developer
                                 </p>
@@ -100,6 +131,7 @@ const ProfilePage = () => {
                                 <p className="text-sm text-gray-500">
                                     Status
                                 </p>
+
                                 <p className="mt-1 font-medium text-green-400">
                                     Active
                                 </p>
@@ -118,6 +150,7 @@ const ProfilePage = () => {
                         </h2>
 
                         <div className="flex flex-wrap gap-2">
+
                             <Button size="sm" variant="flat" color="primary">
                                 React
                             </Button>
@@ -137,6 +170,7 @@ const ProfilePage = () => {
                             <Button size="sm" variant="flat" color="primary">
                                 MongoDB
                             </Button>
+
                         </div>
                     </div>
 
@@ -148,4 +182,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-

@@ -1,7 +1,8 @@
 "use client";
 
-import {FloppyDisk} from "@gravity-ui/icons";
+import { FloppyDisk } from "@gravity-ui/icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Description,
@@ -13,7 +14,9 @@ import {
   Label,
   TextArea,
   TextField,
+  toast,
 } from "@heroui/react";
+import { updateUser, useSession } from "@/app/lib/auth-client";
 
 const shell =
   "w-full rounded-2xl border border-gray-800 bg-gray-900/90 p-6 shadow-2xl shadow-black/20 sm:p-8";
@@ -21,11 +24,44 @@ const shell =
 const field =
   "rounded-xl border border-gray-700 bg-gray-950 text-white shadow-sm transition-[box-shadow,border-color] placeholder:text-gray-500 focus-visible:ring-2 focus-visible:ring-blue-500/30";
 
+
+
 export default function EditProfilePage() {
-  const onSubmit = (e) => {
+  const { data: session } = useSession();
+  const router = useRouter();
+
+
+  const onSubmit = async (e) => {
     e.preventDefault();
-    alert("Form submitted successfully!");
+
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData.entries());
+
+    const updateProfile = updateUser({
+      name: userData.name,
+      bio: userData.bio,
+    });
+
+    try {
+      const resData = await toast.promise(updateProfile, {
+        loading: "Updating profile...",
+        success: "Profile updated successfully!",
+        error: "Failed to update profile",
+      });
+
+      console.log(resData);
+
+      if (!resData.error) {
+        setTimeout(() => {
+          router.push("/profile");
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+
 
   return (
     <main className="min-h-screen bg-gray-950 px-4 py-10 text-white sm:py-14">
@@ -77,16 +113,24 @@ export default function EditProfilePage() {
                 isRequired
                 name="email"
                 type="email"
-                defaultValue="mahadi@example.com"
+                defaultValue={session?.user?.email || ""}
+                validate={(value) => {
+                  if (!value.includes("@")) {
+                    return "Please enter a valid email address";
+                  }
+
+                  return null;
+                }}
               >
                 <Label className="text-gray-200">Email address</Label>
                 <Input className={field} placeholder="you@example.com" />
                 <FieldError />
               </TextField>
+
               <TextField
                 isRequired
                 name="bio"
-                defaultValue="I am a passionate web developer who loves building modern, responsive and user-friendly web applications using React, Next.js and TypeScript."
+                defaultValue={session?.user?.bio || ""}
                 validate={(value) => {
                   if (value.length < 10) {
                     return "Bio must be at least 10 characters";
@@ -96,12 +140,19 @@ export default function EditProfilePage() {
                 }}
               >
                 <Label className="text-gray-200">About me</Label>
-                <TextArea className={field} placeholder="Tell us about yourself..." />
+
+                <TextArea
+                  className={field}
+                  placeholder="Tell us about yourself..."
+                />
+
                 <Description className="text-gray-500">
                   Share a short introduction (at least 10 characters).
                 </Description>
+
                 <FieldError />
               </TextField>
+
             </FieldGroup>
             <Fieldset.Actions className="mt-7 border-t border-gray-800 pt-5">
               <Button type="submit" color="primary">
