@@ -5,18 +5,20 @@ import { Button, Description, FieldError, Form, Input, Label, TextField } from "
 
 
 const ForgotPasswordPage = () => {
-    const handelForgotPassword = async(e) => {
+    const handelForgotPassword = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const userData = Object.fromEntries(formData.entries());
 
-         const resData = await requestPasswordReset({
+        const resData = await requestPasswordReset({
             email: userData.email,
-            redirectTo: "/reset-password"
-         })
+            redirectTo: "http://localhost:3000/reset-password"
+        });
+
+        console.log("RESET PASSWORD RESPONSE:", resData);
 
     }
-        
+
     return (
         <div>
             <h1>Forgot Password</h1>
