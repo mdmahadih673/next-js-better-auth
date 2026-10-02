@@ -125,17 +125,29 @@ export default function SignInPage() {
                             <FieldError />
                         </TextField>
 
-                        <div className="flex items-center justify-between gap-3 pt-1">
+                        <div className="flex flex-col items-center justify-between gap-3 pt-1">
                             <Button
-                                className="min-h-11 flex-1 rounded-xl bg-blue-600 font-medium text-white transition hover:bg-blue-500"
+                                className="min-h-11 w-full flex-1 rounded-xl bg-blue-600 font-medium text-white transition hover:bg-blue-500"
                                 type="submit"
                             >
                                 <Check />
                                 Sign in
                             </Button>
-                            <Button className="min-h-11 rounded-xl border border-white/10 px-5 text-slate-300 hover:bg-white/5" type="reset" variant="secondary">
-                                Reset
-                            </Button>
+                            <div className="mt-4 flex items-center justify-center gap-2 text-sm">
+                                <span className="text-slate-500">
+                                    Forgot your password?
+                                </span>
+
+                                <Link
+                                    href="/forgot-password"
+                                    className="group inline-flex items-center gap-1 font-medium text-blue-400 transition-all duration-300 hover:text-blue-300"
+                                >
+                                    Reset it
+                                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                                        →
+                                    </span>
+                                </Link>
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-slate-500">
@@ -156,6 +168,8 @@ export default function SignInPage() {
                             </Link>
                         </p>
                     </Form>
+
+
                 </section>
             </div>
         </main>
